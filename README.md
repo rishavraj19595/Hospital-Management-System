@@ -1,6 +1,4 @@
-# Hospital-Management-System
-
-Global Hospital Management System
+Hospital Management System
 
 A full-stack Hospital Management System built with Spring Boot,
 MongoDB, HTML, CSS, and JavaScript. The application
