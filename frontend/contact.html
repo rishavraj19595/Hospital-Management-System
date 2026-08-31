@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Global Hospital</title>
+  <link rel="shortcut icon" type="image/x-icon" href="image/favicon.png" />
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <i class="fa-solid fa-house-chimney-medical"></i>
+      <span>GLOBAL HOSPITAL</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="about.html">ABOUT US</a></li>
+      <li><a href="contact.html" class="active">CONTACT</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contact Form Section -->
+  <div class="hero-container" style="align-items: center; justify-content: center; min-height: 100vh; padding-top: 80px;">
+    <div class="auth-card" style="max-width: 600px;">
+      <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; text-align: center;">
+        <i class="fa-solid fa-envelope-open-text" style="color: var(--accent-color);"></i> Send Us a Message
+      </h3>
+      <div id="contact-alert"></div>
+      
+      <form onsubmit="handleContactSubmit(event)">
+        <div class="form-group">
+          <label for="contact-name">Full Name *</label>
+          <input type="text" id="contact-name" class="form-control" placeholder="Your Name" required onkeydown="return alphaOnly(event)">
+        </div>
+        <div class="form-group">
+          <label for="contact-email">Email Address *</label>
+          <input type="email" id="contact-email" class="form-control" placeholder="Your Email" required>
+        </div>
+        <div class="form-group">
+          <label for="contact-phone">Phone Number (10 digits) *</label>
+          <input type="tel" id="contact-phone" class="form-control" placeholder="10 Digit Phone Number" pattern="[0-9]{10}" required>
+        </div>
+        <div class="form-group">
+          <label for="contact-message">Message *</label>
+          <textarea id="contact-message" class="form-control" rows="4" placeholder="How can we help you?" style="resize: vertical; font-family: inherit;" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">
+          <i class="fa-solid fa-paper-plane"></i> Submit Message
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

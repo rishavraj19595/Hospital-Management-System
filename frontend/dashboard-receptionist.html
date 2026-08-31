@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Receptionist Dashboard - Global Hospital</title>
+  <link rel="shortcut icon" type="image/x-icon" href="image/favicon.png" />
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="#" class="nav-brand">
+      <i class="fa-solid fa-house-chimney-medical"></i>
+      <span>GLOBAL HOSPITAL</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" class="btn-logout" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- Dashboard Container -->
+  <div class="dashboard-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="profile-avatar">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+        <div class="profile-name">Receptionist</div>
+        <div class="profile-role">Admin Control Panel</div>
+      </div>
+
+      <ul class="sidebar-menu" style="font-size: 0.95rem;">
+        <li>
+          <a class="menu-item active" id="menu-dash" onclick="switchPanel('dash')">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Dashboard Stats</span>
+          </a>
+        </li>
+        <li>
+          <a class="menu-item" id="menu-docs" onclick="switchPanel('docs')">
+            <i class="fa-solid fa-user-md"></i>
+            <span>Doctor List</span>
+          </a>
+        </li>
+        <li>
+          <a class="menu-item" id="menu-pats" onclick="switchPanel('pats')">
+            <i class="fa-solid fa-user-injured"></i>
+            <span>Patient List</span>
+          </a>
+        </li>
+        <li>
+          <a class="menu-item" id="menu-apps" onclick="switchPanel('apps')">
+            <i class="fa-solid fa-calendar-alt"></i>
+            <span>Appointments</span>
+          </a>
+        </li>
+        <li>
+          <a class="menu-item" id="menu-queries" onclick="switchPanel('queries')">
+            <i class="fa-solid fa-question-circle"></i>
+            <span>Contact Queries</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Panel 1: Stats Overview -->
+      <section class="tab-panel active" id="panel-dash">
+        <div class="dashboard-header">
+          <h2>Receptionist Stats Overview</h2>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-user-md"></i></div>
+            <div class="stat-info">
+              <h3>Active Doctors</h3>
+              <p id="stat-count-doctors">0</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-user-injured"></i></div>
+            <div class="stat-info">
+              <h3>Total Patients</h3>
+              <p id="stat-count-patients">0</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
+            <div class="stat-info">
+              <h3>Appointments</h3>
+              <p id="stat-count-appointments">0</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-comment-dots"></i></div>
+            <div class="stat-info">
+              <h3>Unresolved Queries</h3>
+              <p id="stat-count-queries">0</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Doctor Section -->
+        <div class="content-card">
+          <h3><i class="fa-solid fa-user-plus" style="color: var(--accent-color);"></i> Add Doctor</h3>
+          <div id="add-doc-alert"></div>
+          <form onsubmit="handleAddDoctor(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="add-doc-name">Doctor Name *</label>
+                <input type="text" id="add-doc-name" class="form-control" placeholder="Name (e.g. Ashok)" required onkeydown="return alphaOnly(event)">
+              </div>
+              <div class="form-group">
+                <label for="add-doc-email">Email Address *</label>
+                <input type="email" id="add-doc-email" class="form-control" placeholder="Email" required>
+              </div>
+              <div class="form-group">
+                <label for="add-doc-spec">Specialization *</label>
+                <select id="add-doc-spec" class="form-control" required>
+                  <option value="">Select Specialization</option>
+                  <option value="General">General</option>
+                  <option value="Cardiologist">Cardiologist</option>
+                  <option value="Neurologist">Neurologist</option>
+                  <option value="Pediatrician">Pediatrician</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="add-doc-fees">Fees (INR) *</label>
+                <input type="number" id="add-doc-fees" class="form-control" placeholder="Fees" required>
+              </div>
+              <div class="form-group">
+                <label for="add-doc-password">Password *</label>
+                <input type="password" id="add-doc-password" class="form-control" placeholder="Password" required minlength="6">
+              </div>
+              <div class="form-group">
+                <label for="add-doc-starttime">Shift Start Time *</label>
+                <input type="time" id="add-doc-starttime" class="form-control" value="09:00" required>
+              </div>
+              <div class="form-group">
+                <label for="add-doc-endtime">Shift End Time *</label>
+                <input type="time" id="add-doc-endtime" class="form-control" value="16:45" required>
+              </div>
+            </div>
+            <button type="submit" class="btn-primary" style="margin-top: 1rem; max-width: 200px;">
+              <i class="fa-solid fa-save"></i> Save Doctor
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Panel 2: Doctors List -->
+      <section class="tab-panel" id="panel-docs">
+        <div class="dashboard-header">
+          <h2>Doctor List</h2>
+        </div>
+
+        <div id="docs-list-alert"></div>
+
+        <!-- Edit Doctor Modal / Card -->
+        <div class="content-card" id="edit-doc-card" style="display: none; border: 2px solid var(--accent-color); margin-bottom: 2rem;">
+          <h3><i class="fa-solid fa-user-pen" style="color: var(--accent-color);"></i> Edit Doctor Details</h3>
+          <div id="edit-doc-alert"></div>
+          <form onsubmit="handleUpdateDoctor(event)">
+            <input type="hidden" id="edit-doc-id">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="edit-doc-name">Doctor Name *</label>
+                <input type="text" id="edit-doc-name" class="form-control" required onkeydown="return alphaOnly(event)">
+              </div>
+              <div class="form-group">
+                <label for="edit-doc-email">Email Address *</label>
+                <input type="email" id="edit-doc-email" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="edit-doc-spec">Specialization *</label>
+                <select id="edit-doc-spec" class="form-control" required>
+                  <option value="">Select Specialization</option>
+                  <option value="General">General</option>
+                  <option value="Cardiologist">Cardiologist</option>
+                  <option value="Neurologist">Neurologist</option>
+                  <option value="Pediatrician">Pediatrician</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="edit-doc-fees">Fees (INR) *</label>
+                <input type="number" id="edit-doc-fees" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="edit-doc-starttime">Shift Start Time *</label>
+                <input type="time" id="edit-doc-starttime" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="edit-doc-endtime">Shift End Time *</label>
+                <input type="time" id="edit-doc-endtime" class="form-control" required>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 1rem;">
+              <button type="submit" class="btn-primary" style="max-width: 180px;">
+                <i class="fa-solid fa-check"></i> Update Doctor
+              </button>
+              <button type="button" class="btn-action" onclick="cancelEditDoctor()" style="background-color: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 4px;">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="content-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Doctor Name</th>
+                  <th>Specialization</th>
+                  <th>Email</th>
+                  <th>Time Slot / Shift</th>
+                  <th>Fees (INR)</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="receptionist-docs-table">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 3: Patients List -->
+      <section class="tab-panel" id="panel-pats">
+        <div class="dashboard-header">
+          <h2>Patient List</h2>
+        </div>
+
+        <div class="search-container">
+          <input type="text" id="patient-search-query" class="form-control search-input" placeholder="Search by name/phone..." onkeyup="searchPatients()">
+        </div>
+
+        <div class="content-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Patient ID</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Gender</th>
+                  <th>Email</th>
+                  <th>Contact</th>
+                </tr>
+              </thead>
+              <tbody id="receptionist-pats-table">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 4: Appointments Details -->
+      <section class="tab-panel" id="panel-apps">
+        <div class="dashboard-header">
+          <h2>System Appointments Details</h2>
+        </div>
+
+        <div class="search-container" style="justify-content: space-between; align-items: center;">
+          <div>
+            <label style="display: inline-block; margin-right: 10px; font-weight: 600;">Sort By:</label>
+            <select id="appointment-sort-param" class="form-control" style="width: auto; display: inline-block;" onchange="loadReceptionistAppointments()">
+              <option value="date">Date & Time</option>
+              <option value="name">Patient Name</option>
+              <option value="fees">Fees</option>
+            </select>
+          </div>
+          <input type="text" id="appointment-search-query" class="form-control search-input" placeholder="Search by Doctor/Patient..." onkeyup="searchAppointments()">
+        </div>
+
+        <div id="apps-list-alert"></div>
+
+        <div class="content-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>App ID</th>
+                  <th>Patient ID</th>
+                  <th>Patient Name</th>
+                  <th>Doctor</th>
+                  <th>Fees</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="receptionist-apps-table">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 5: Contact Queries -->
+      <section class="tab-panel" id="panel-queries">
+        <div class="dashboard-header">
+          <h2>Feedback / Contact Queries</h2>
+        </div>
+
+        <div class="content-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Sender Name</th>
+                  <th>Email</th>
+                  <th>Contact</th>
+                  <th>Message</th>
+                </tr>
+              </thead>
+              <tbody id="receptionist-queries-table">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const role = localStorage.getItem('role');
+      if (role !== 'receptionist') {
+        window.location.href = 'index.html';
+      }
+      loadReceptionistDashboard();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard - Global Hospital</title>
+  <link rel="shortcut icon" type="image/x-icon" href="image/favicon.png" />
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="#" class="nav-brand">
+      <i class="fa-solid fa-house-chimney-medical"></i>
+      <span>GLOBAL HOSPITAL</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" class="btn-logout" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- Dashboard Main Container -->
+  <div class="dashboard-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="profile-avatar">
+          <i class="fa-solid fa-user-injured"></i>
+        </div>
+        <div class="profile-name" id="patient-display-name">Patient Name</div>
+        <div class="profile-role">Registered Patient</div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li>
+          <a class="menu-item active" id="menu-dash" onclick="switchPanel('dash')">
+            <i class="fa-solid fa-calendar-plus"></i>
+            <span>Book Appointment</span>
+          </a>
+        </li>
+        <li>
+          <a class="menu-item" id="menu-history" onclick="switchPanel('history')">
+            <i class="fa-solid fa-history"></i>
+            <span>Appointment History</span>
+          </a>
+        </li>
+        <li>
+          <a class="menu-item" id="menu-pres" onclick="switchPanel('pres')">
+            <i class="fa-solid fa-file-prescription"></i>
+            <span>Prescriptions</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Panel 1: Book Appointment -->
+      <section class="tab-panel active" id="panel-dash">
+        <div class="dashboard-header">
+          <h2 id="welcome-patient-header">Welcome, Patient</h2>
+        </div>
+
+        <div id="booking-alert"></div>
+
+        <div class="content-card">
+          <h3><i class="fa-solid fa-calendar-check" style="color: var(--accent-color);"></i> Book a Consultation</h3>
+          <form onsubmit="handleBookAppointment(event)">
+            <div class="form-grid">
+              
+              <div class="form-group">
+                <label for="book-spec">Specialization *</label>
+                <select id="book-spec" class="form-control" onchange="loadDoctorsBySpec()" required>
+                  <option value="">Select Specialization</option>
+                  <!-- Dynamically populated -->
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="book-doctor">Doctor *</label>
+                <select id="book-doctor" class="form-control" onchange="updateFeesAndEmail()" required>
+                  <option value="">Select Doctor</option>
+                  <!-- Dynamically populated -->
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="book-fees">Consultation Fees (INR)</label>
+                <input type="text" id="book-fees" class="form-control" readonly style="background-color: #e9ecef; font-weight: 600;">
+              </div>
+
+              <div class="form-group">
+                <label for="book-docemail">Doctor Email</label>
+                <input type="text" id="book-docemail" class="form-control" readonly style="background-color: #e9ecef;">
+              </div>
+
+              <div class="form-group">
+                <label for="book-docshift">Doctor Shift / Working Hours</label>
+                <input type="text" id="book-docshift" class="form-control" readonly style="background-color: #e9ecef; font-weight: 600; color: var(--accent-color);" placeholder="Select a doctor">
+              </div>
+
+              <div class="form-group">
+                <label for="book-date">Appointment Date *</label>
+                <input type="date" id="book-date" class="form-control" required>
+              </div>
+
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Select Time Slot * (Green = Available, Red = Booked)</label>
+                <div id="slots-container" class="slots-grid">
+                  <div style="color: var(--text-muted); font-style: italic;">Please select a doctor and a date to view available time slots.</div>
+                </div>
+                <input type="hidden" id="book-time" required>
+              </div>
+
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label class="custom-checkbox" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                  <input type="checkbox" id="book-emergency" style="width: auto;">
+                  <span style="color: #dc3545; font-weight: bold;"><i class="fa-solid fa-truck-medical"></i> Emergency Priority (Requires Immediate Attention)</span>
+                </label>
+              </div>
+
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-top: 1.5rem; max-width: 250px;">
+              <i class="fa-solid fa-check"></i> Book Now
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Panel 2: Appointment History -->
+      <section class="tab-panel" id="panel-history">
+        <div class="dashboard-header">
+          <h2>Your Appointment History</h2>
+        </div>
+
+        <div id="history-alert"></div>
+
+        <div class="content-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Appointment ID</th>
+                  <th>Doctor Name</th>
+                  <th>Fees</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="patient-history-table">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 3: Prescriptions -->
+      <section class="tab-panel" id="panel-pres">
+        <div class="dashboard-header">
+          <h2>Your Prescriptions</h2>
+        </div>
+
+        <div class="content-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Doctor Name</th>
+                  <th>Appointment Date</th>
+                  <th>Appointment Time</th>
+                  <th>Disease</th>
+                  <th>Allergy</th>
+                  <th>Prescription</th>
+                  <th>Bill Details</th>
+                </tr>
+              </thead>
+              <tbody id="patient-pres-table">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Printable Receipt Section -->
+          <div id="receipt-container" style="display: none;">
+            <div class="receipt-box" id="bill-receipt">
+              <!-- Dynamically populated -->
+            </div>
+            <button class="btn-primary" onclick="printReceipt()" style="margin-top: 1rem; max-width: 200px;">
+              <i class="fa-solid fa-print"></i> Print Receipt
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Security check - ensure patient is logged in
+    window.addEventListener('DOMContentLoaded', () => {
+      const role = localStorage.getItem('role');
+      if (role !== 'patient') {
+        window.location.href = 'index.html';
+      }
+      loadPatientDashboard();
+    });
+  </script>
+</body>
+</html>

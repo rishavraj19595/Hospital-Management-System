@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Hospital - Care & Trust</title>
+  <link rel="shortcut icon" type="image/x-icon" href="image/favicon.png" />
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Premium Navigation -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <i class="fa-solid fa-house-chimney-medical"></i>
+      <span>GLOBAL HOSPITAL</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">HOME</a></li>
+      <li><a href="about.html">ABOUT US</a></li>
+      <li><a href="contact.html">CONTACT</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Content -->
+  <div class="hero-container">
+    <div class="hero-left">
+      <h1>Compassionate Care for <span>A Better Tomorrow</span></h1>
+      <p>Welcome to Global Hospital. We are dedicated to providing state-of-the-art medical services with top-tier specialists, advanced diagnostics, and compassionate clinical teams.</p>
+      
+      <div style="text-align: center;">
+        <!-- Using a high-quality online SVG placeholder or generic vector for hospital styling -->
+        <svg viewBox="0 0 500 350" width="100%" height="auto" style="max-width: 420px; filter: drop-shadow(0 10px 20px rgba(15,81,50,0.15));">
+          <rect width="500" height="350" rx="20" fill="#ffffff"/>
+          <path d="M 50 250 L 450 250 L 450 320 L 50 320 Z" fill="#e8f5e9"/>
+          <!-- Hospital building vector design -->
+          <rect x="150" y="80" width="200" height="170" fill="#0f5132" rx="5"/>
+          <rect x="210" y="80" width="80" height="170" fill="#198754"/>
+          <!-- Windows -->
+          <rect x="170" y="110" width="25" height="25" rx="3" fill="#ffffff"/>
+          <rect x="170" y="150" width="25" height="25" rx="3" fill="#ffffff"/>
+          <rect x="170" y="190" width="25" height="25" rx="3" fill="#ffffff"/>
+          <rect x="305" y="110" width="25" height="25" rx="3" fill="#ffffff"/>
+          <rect x="305" y="150" width="25" height="25" rx="3" fill="#ffffff"/>
+          <rect x="305" y="190" width="25" height="25" rx="3" fill="#ffffff"/>
+          <!-- Hospital Cross Symbol -->
+          <rect x="235" y="100" width="30" height="10" fill="#ffffff"/>
+          <rect x="245" y="90" width="10" height="30" fill="#ffffff"/>
+          <!-- Door -->
+          <path d="M 230 250 L 230 210 L 270 210 L 270 250 Z" fill="#ffffff"/>
+          <circle cx="238" cy="230" r="2" fill="#198754"/>
+          <circle cx="262" cy="230" r="2" fill="#198754"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="auth-card">
+        <!-- Tabs Navigation -->
+        <div class="auth-tabs">
+          <button class="auth-tab-btn active" id="btn-tab-patient" onclick="switchTab('patient')">Patient</button>
+          <button class="auth-tab-btn" id="btn-tab-doctor" onclick="switchTab('doctor')">Doctor</button>
+          <button class="auth-tab-btn" id="btn-tab-receptionist" onclick="switchTab('receptionist')">Receptionist</button>
+        </div>
+
+        <div id="alert-box"></div>
+
+        <!-- PATIENT AUTH (REGISTER/LOGIN TOGGLE) -->
+        <div id="patient-auth-section">
+          <!-- Patient Registration Form -->
+          <div id="patient-register-form">
+            <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; text-align: center;">Register as Patient</h3>
+            <form onsubmit="handlePatientRegister(event)" id="pat-reg-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="reg-fname">First Name *</label>
+                  <input type="text" id="reg-fname" class="form-control" placeholder="First Name" required onkeydown="return alphaOnly(event)">
+                </div>
+                <div class="form-group">
+                  <label for="reg-lname">Last Name *</label>
+                  <input type="text" id="reg-lname" class="form-control" placeholder="Last Name" required onkeydown="return alphaOnly(event)">
+                </div>
+                <div class="form-group">
+                  <label for="reg-email">Email *</label>
+                  <input type="email" id="reg-email" class="form-control" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                  <label for="reg-contact">Phone (10 digits) *</label>
+                  <input type="tel" id="reg-contact" class="form-control" placeholder="Phone" pattern="[0-9]{10}" required>
+                </div>
+                <div class="form-group">
+                  <label for="reg-password">Password *</label>
+                  <input type="password" id="reg-password" class="form-control" placeholder="At least 6 chars" required minlength="6" onkeyup="checkPasswordMatch()">
+                </div>
+                <div class="form-group">
+                  <label for="reg-cpassword">Confirm Password *</label>
+                  <input type="password" id="reg-cpassword" class="form-control" placeholder="Confirm Password" required onkeyup="checkPasswordMatch()">
+                  <span id="pwd-match-msg" style="font-size: 0.8rem; font-weight: 600;"></span>
+                </div>
+                <div class="form-group full-width">
+                  <label>Gender *</label>
+                  <div class="radio-group">
+                    <label class="radio-label">
+                      <input type="radio" name="pat-gender" value="Male" checked> Male
+                    </label>
+                    <label class="radio-label">
+                      <input type="radio" name="pat-gender" value="Female"> Female
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">
+                <i class="fa-solid fa-user-plus"></i> Register
+              </button>
+            </form>
+            <div style="text-align: center;">
+              <a href="#" class="link-alt" onclick="togglePatientAuthView('login')">Already have an account? Login here</a>
+            </div>
+          </div>
+
+          <!-- Patient Login Form -->
+          <div id="patient-login-form" style="display: none;">
+            <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; text-align: center;">Patient Login</h3>
+            <form onsubmit="handlePatientLogin(event)">
+              <div class="form-group">
+                <label for="pat-login-email">Email Address *</label>
+                <input type="email" id="pat-login-email" class="form-control" placeholder="Enter Email" required>
+              </div>
+              <div class="form-group">
+                <label for="pat-login-password">Password *</label>
+                <input type="password" id="pat-login-password" class="form-control" placeholder="Enter Password" required>
+              </div>
+              <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">
+                <i class="fa-solid fa-right-to-bracket"></i> Login
+              </button>
+            </form>
+            <div style="text-align: center;">
+              <a href="#" class="link-alt" onclick="togglePatientAuthView('register')">New Patient? Register here</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOCTOR LOGIN -->
+        <div id="doctor-auth-section" style="display: none;">
+          <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; text-align: center;">Doctor Login</h3>
+          <form onsubmit="handleDoctorLogin(event)">
+            <div class="form-group">
+              <label for="doc-login-username">Username *</label>
+              <input type="text" id="doc-login-username" class="form-control" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+              <label for="doc-login-password">Password *</label>
+              <input type="password" id="doc-login-password" class="form-control" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">
+              <i class="fa-solid fa-user-md"></i> Login
+            </button>
+          </form>
+        </div>
+
+        <!-- RECEPTIONIST LOGIN -->
+        <div id="receptionist-auth-section" style="display: none;">
+          <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; text-align: center;">Receptionist Login</h3>
+          <form onsubmit="handleReceptionistLogin(event)">
+            <div class="form-group">
+              <label for="rec-login-username">Username *</label>
+              <input type="text" id="rec-login-username" class="form-control" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+              <label for="rec-login-password">Password *</label>
+              <input type="password" id="rec-login-password" class="form-control" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">
+              <i class="fa-solid fa-user-shield"></i> Login
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
