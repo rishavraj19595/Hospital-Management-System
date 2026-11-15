@@ -1,4 +1,4 @@
-# 🏥 Enterprise Hospital Management System (HMS)
+# 🏥 Hospital Management System (HMS)
 
 [![Spring Boot](https://img.shields.io/badge/Spring--Boot-3.3.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://www.oracle.com/java/)
